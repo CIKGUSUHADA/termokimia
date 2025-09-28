@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Interaktif Termokimia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurDcGvfeFAKJUtnzT9JOhdMmdzUoCon/sZNmn5NBTRL+" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f7ff;
+            background-image: linear-gradient(to top right, #fde68a, #fca5a5, #a5b4fc);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link.active {
+            color: #ffffff;
+            background-color: #0ea5e9;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .quiz-option {
+            border: 2px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+        .quiz-option:hover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .quiz-option.correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+        }
+        .quiz-option.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-800">
+
+    <div class="max-w-7xl mx-auto p-4 md:p-6">
+        <!-- Header & Navigasi -->
+        <header class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center gap-3 mb-4 md:mb-0">
+                    <i data-lucide="flask-conical" class="w-10 h-10 text-sky-500"></i>
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900">Modul Termokimia</h1>
+                        <p class="text-sm text-slate-500">Kimia KSSM Tingkatan 5</p>
+                    </div>
+                </div>
+                <nav class="flex gap-2 bg-slate-100 p-1.5 rounded-lg">
+                    <button id="nav-nota" class="nav-link active px-4 py-2 rounded-md text-sm font-semibold text-slate-600 hover:bg-sky-100">
+                        <i data-lucide="notebook-text" class="inline-block w-4 h-4 mr-2"></i>Nota
+                    </button>
+                    <button id="nav-kuiz" class="nav-link px-4 py-2 rounded-md text-sm font-semibold text-slate-600 hover:bg-sky-100">
+                        <i data-lucide="brain-circuit" class="inline-block w-4 h-4 mr-2"></i>Kuiz Interaktif
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <!-- Bahagian Nota -->
+            <section id="content-nota" class="space-y-6">
+                <!-- Pengenalan -->
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold text-sky-600 flex items-center gap-2 mb-3"><i data-lucide="sparkles" class="w-6 h-6"></i>Pengenalan Termokimia</h2>
+                    <p class="text-slate-600">Termokimia ialah kajian tentang perubahan haba semasa tindak balas kimia. Setiap bahan kimia menyimpan tenaga yang dikenali sebagai kandungan tenaga (H). Apabila tindak balas berlaku, perubahan haba yang terhasil dikenali sebagai perubahan kandungan tenaga (<span class="latex">\Delta H</span>).</p>
+                    <div class="mt-4 bg-sky-50 border border-sky-200 text-sky-800 p-4 rounded-lg">
+                        <strong>Formula Penting:</strong> <span class="latex">\Delta H = H_{\text{hasil tindak balas}} - H_{\text{bahan tindak balas}}</span>
+                    </div>
+                </div>
+
+                <!-- Eksotermik & Endotermik -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <h3 class="text-lg font-bold text-red-600 flex items-center gap-2 mb-3"><i data-lucide="flame" class="w-6 h-6"></i>Tindak Balas Eksotermik</h3>
+                        <p class="text-slate-600">Tindak balas yang <strong>membebaskan haba</strong> ke persekitaran. Bekas menjadi panas.</p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 text-slate-600">
+                            <li>Kandungan tenaga hasil < kandungan tenaga bahan.</li>
+                            <li>Nilai <span class="latex">\Delta H</span> adalah <strong>negatif (-)</strong>.</li>
+                        </ul>
+                        <img src="https://i.ibb.co/0VWR6PL4/gr-arastenaga-03.gif" alt="Rajah Aras Tenaga Eksotermik" class="mt-4 rounded-lg w-full">
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="text-lg font-bold text-blue-600 flex items-center gap-2 mb-3"><i data-lucide="snowflake" class="w-6 h-6"></i>Tindak Balas Endotermik</h3>
+                        <p class="text-slate-600">Tindak balas yang <strong>menyerap haba</strong> dari persekitaran. Bekas menjadi sejuk.</p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 text-slate-600">
+                            <li>Kandungan tenaga hasil > kandungan tenaga bahan.</li>
+                            <li>Nilai <span class="latex">\Delta H</span> adalah <strong>positif (+)</strong>.</li>
+                        </ul>
+                        <img src="https://i.ibb.co/XkY1gn5B/gambar-endotermik.gif" alt="Rajah Aras Tenaga Endotermik" class="mt-4 rounded-lg w-full">
+                    </div>
+                </div>
+
+                <!-- Aplikasi dalam Kehidupan Harian -->
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold text-sky-600 flex items-center gap-2 mb-3"><i data-lucide="heart-pulse" class="w-6 h-6"></i>Aplikasi dalam Kehidupan Harian</h2>
+                    <p class="text-slate-600 mb-6">Tindak balas termokimia banyak membantu dalam kehidupan kita, daripada pek panas dan sejuk hinggalah kepada masakan dan proses biologi.</p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Kolum Eksotermik -->
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-bold text-red-600 border-b-2 border-red-200 pb-2">Contoh Tindak Balas Eksotermik</h3>
+                            <div class="flex gap-4">
+                                <img src="https://img.waimaoniu.net/3893/3893-202404250959416217.png" class="w-32 h-auto rounded-lg shadow-md mt-1">
+                                <div>
+                                    <h4 class="font-bold">Pek Panas (Hot Pack)</h4>
+                                    <p class="text-sm text-slate-600">Apabila pek dipicit, bahan kimia di dalamnya (cth: kalsium klorida kontang, magnesium sulfat kontang) larut dalam air dan membebaskan haba. Ia digunakan untuk melegakan kekejangan otot.</p>
+                                </div>
+                            </div>
+                             <div class="flex gap-4">
+                                <img src="https://i.ibb.co/NgBVGLP6/tin.jpg" alt="Tin Pemanas Sendiri" class="w-32 h-auto rounded-lg shadow-md mt-1">
+                                <div>
+                                    <h4 class="font-bold">Tin Pemanas Sendiri (Hot Can)</h4>
+                                    <p class="text-sm text-slate-600">Teknologi ini menggunakan tindak balas antara kalsium oksida (CaO) dan air yang membebaskan haba untuk memanaskan minuman atau sup di dalamnya tanpa memerlukan api atau elektrik.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Kolum Endotermik -->
+                        <div class="space-y-6">
+                             <h3 class="text-lg font-bold text-blue-600 border-b-2 border-blue-200 pb-2">Contoh Tindak Balas Endotermik</h3>
+                             <div class="flex gap-4">
+                                <img src="https://i.ibb.co/4w21RGg9/pek-sejuk.png" alt="Pek Sejuk" class="w-32 h-auto rounded-lg shadow-md mt-1">
+                                <div>
+                                    <h4 class="font-bold">Pek Sejuk (Cold Pack)</h4>
+                                    <p class="text-sm text-slate-600">Apabila pek dipicit, hablur ammonium nitrat larut di dalam air dan menyerap haba dari persekitaran. Ini menyebabkan pek menjadi sejuk dan sesuai untuk mengurangkan bengkak akibat kecederaan.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <img src="https://placehold.co/300x200/e0f2fe/0ea5e9?text=Membuat+Kek" class="w-32 h-auto rounded-lg shadow-md mt-1">
+                                <div>
+                                    <h4 class="font-bold">Membuat Kek & Roti</h4>
+                                    <p class="text-sm text-slate-600">Bahan penaik seperti natrium bikarbonat (soda penaik) akan terurai apabila dipanaskan. Proses penguraian endotermik ini menyerap haba dari ketuhar dan membebaskan gas karbon dioksida yang menaikkan adunan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Haba Tindak Balas -->
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold text-sky-600 flex items-center gap-2 mb-3"><i data-lucide="test-tube-2" class="w-6 h-6"></i>Jenis Haba Tindak Balas & Pengiraan</h2>
+                    <p class="text-slate-600 mb-6">Setiap jenis tindak balas mempunyai haba tindak balas yang spesifik. Mari kita lihat satu persatu beserta contoh pengiraan.</p>
+                    
+                    <div class="space-y-6">
+                        <!-- Haba Pemendakan -->
+                        <div class="bg-slate-50 p-6 rounded-lg border">
+                            <h3 class="text-lg font-bold text-indigo-700">1. Haba Pemendakan</h3>
+                            <p class="text-sm text-slate-600 mt-1">Perubahan haba apabila 1 mol mendakan terbentuk daripada ion-ionnya dalam larutan akueus.</p>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <p class="text-sm"><strong>Contoh:</strong> <span class="latex">AgNO_3(aq) + NaCl(aq) \rightarrow AgCl(s) + NaNO_3(aq)</span></p>
+                                    <blockquote class="tiktok-embed mt-4" cite="https://www.tiktok.com/@cikguintankimiasains/video/7366559803012812039" data-video-id="7366559803012812039" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@cikguintankimiasains" href="https://www.tiktok.com/@cikguintankimiasains?refer=embed">@cikguintankimiasains</a> <a title="capcut" target="_blank" href="https://www.tiktok.com/tag/capcut?refer=embed">#CapCut</a>  <a title="kimiating5" target="_blank" href="https://www.tiktok.com/tag/kimiating5?refer=embed">#kimiating5</a> <a title="termokimia" target="_blank" href="https://www.tiktok.com/tag/termokimia?refer=embed">#termokimia</a> <a title="habapemendakan" target="_blank" href="https://www.tiktok.com/tag/habapemendakan?refer=embed">#habapemendakan</a> <a title="agcleksotermik" target="_blank" href="https://www.tiktok.com/tag/agcleksotermik?refer=embed">#AgCleksotermik</a> <a title="mgco3endotermik" target="_blank" href="https://www.tiktok.com/tag/mgco3endotermik?refer=embed">#MgCO3endotermik</a> <a target="_blank" title="♬ original sound  - Intan" href="https://www.tiktok.com/music/original-sound-Intan-7366559893551139585?refer=embed">♬ original sound  - Intan</a> </section> </blockquote>
+                                </div>
+                                <div class="text-sm">
+                                    <h4 class="font-semibold text-slate-700">Contoh Pengiraan:</h4>
+                                    <p class="text-slate-600 bg-white p-3 mt-1 rounded border"><strong>Soalan:</strong> 50 cm³ larutan argentum nitrat 0.5 M ditambah kepada 50 cm³ larutan natrium klorida 0.5 M. Suhu meningkat sebanyak 3.4 °C. Hitung haba pemendakan.</p>
+                                    <div class="mt-2 space-y-1">
+                                        <p><strong>1. Haba dibebaskan (q)</strong><br><span class="latex">q = mc\theta = (50+50) \times 4.2 \times 3.4 = 1428 \text{ J}</span></p>
+                                        <p><strong>2. Bilangan mol (n)</strong><br><span class="latex">n = \frac{MV}{1000} = \frac{0.5 \times 50}{1000} = 0.025 \text{ mol}</span></p>
+                                        <p><strong>3. Haba Pemendakan (ΔH)</strong><br><span class="latex">\Delta H = -\frac{q/1000}{n} = -\frac{1.428}{0.025} = -57.12 \text{ kJ mol⁻¹}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Haba Peneutralan -->
+                         <div class="bg-slate-50 p-6 rounded-lg border">
+                            <h3 class="text-lg font-bold text-green-700">2. Haba Peneutralan</h3>
+                            <p class="text-sm text-slate-600 mt-1">Perubahan haba apabila 1 mol air terbentuk daripada peneutralan antara asid dan alkali.</p>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <p class="text-sm mt-2"><strong>Contoh:</strong> <span class="latex">HCl(aq) + NaOH(aq) \rightarrow NaCl(aq) + H_2O(l)</span></p>
+                                    <blockquote class="tiktok-embed mt-4" cite="https://www.tiktok.com/@wennwinnona/video/7398168363458972929" data-video-id="7398168363458972929" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@wennwinnona" href="https://www.tiktok.com/@wennwinnona?refer=embed">@wennwinnona</a> EKSPERIMEN Menentukan Haba Peneutralan <a title="capcut" target="_blank" href="https://www.tiktok.com/tag/capcut?refer=embed">#CapCut</a> <a title="adoteumhabitinho" target="_blank" href="https://www.tiktok.com/tag/adoteumhabitinho?refer=embed">#Adoteumhabitinho</a> <a target="_blank" title="♬ vlog, chill out, calm daily life(1370843) - SUNNY HOOD STUDIO" href="https://www.tiktok.com/music/vlog-chill-out-calm-daily-life-1370843-7179679214566639618?refer=embed">♬ vlog, chill out, calm daily life(1370843) - SUNNY HOOD STUDIO</a> </section> </blockquote>
+                                </div>
+                                <div class="text-sm">
+                                    <h4 class="font-semibold text-slate-700">Contoh Pengiraan:</h4>
+                                    <p class="text-slate-600 bg-white p-3 mt-1 rounded border"><strong>Soalan:</strong> 100 cm³ asid hidroklorik 2.0 M ditambah kepada 100 cm³ natrium hidroksida 2.0 M. Suhu meningkat 13.5 °C. Hitung haba peneutralan.</p>
+                                    <div class="mt-2 space-y-1">
+                                        <p><strong>1. Haba dibebaskan (q)</strong><br><span class="latex">q = mc\theta = (100+100) \times 4.2 \times 13.5 = 11340 \text{ J}</span></p>
+                                        <p><strong>2. Bilangan mol (n)</strong><br><span class="latex">n = \frac{MV}{1000} = \frac{2.0 \times 100}{1000} = 0.2 \text{ mol}</span></p>
+                                        <p><strong>3. Haba Peneutralan (ΔH)</strong><br><span class="latex">\Delta H = -\frac{q/1000}{n} = -\frac{11.34}{0.2} = -56.7 \text{ kJ mol⁻¹}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Haba Penyesaran -->
+                        <div class="bg-slate-50 p-6 rounded-lg border">
+                            <h3 class="text-lg font-bold text-rose-700">3. Haba Penyesaran</h3>
+                            <p class="text-sm text-slate-600 mt-1">Perubahan haba apabila 1 mol logam disesarkan daripada larutan garamnya oleh logam yang lebih elektropositif.</p>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <p class="text-sm mt-2"><strong>Contoh:</strong> <span class="latex">Zn(s) + CuSO_4(aq) \rightarrow ZnSO_4(aq) + Cu(s)</span></p>
+                                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@nishalatif84/video/7494891096900635922" data-video-id="7494891096900635922" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@nishalatif84" href="https://www.tiktok.com/@nishalatif84?refer=embed">@nishalatif84</a> Eksperimen Haba Penyesaran Logam Mg&#47;Zn bertindak balas dengan Larutan Kuprum(II) sulfat oleh Boys 5A 2025. Tindak balas Eksotermik. Cara Mudah Ingat Elsotermik- Akronim: HaBeSuKat (Haba Bebas Suhu Meningkat) <a title="rmc" target="_blank" href="https://www.tiktok.com/tag/rmc?refer=embed">#rmc</a> <a title="kimia" target="_blank" href="https://www.tiktok.com/tag/kimia?refer=embed">#kimia</a> <a title="maamnisa" target="_blank" href="https://www.tiktok.com/tag/maamnisa?refer=embed">#maamnisa</a> <a target="_blank" title="♬ original sound  - Maam Nisa" href="https://www.tiktok.com/music/original-sound-Maam-Nisa-7494891148725504785?refer=embed">♬ original sound  - Maam Nisa</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
+                                </div>
+                                <div class="text-sm">
+                                    <h4 class="font-semibold text-slate-700">Contoh Pengiraan:</h4>
+                                    <p class="text-slate-600 bg-white p-3 mt-1 rounded border"><strong>Soalan:</strong> Serbuk zink berlebihan ditambah kepada 50 cm³ larutan kuprum(II) sulfat 0.2 M. Suhu meningkat sebanyak 10.5 °C. Hitung haba penyesaran.</p>
+                                    <div class="mt-2 space-y-1">
+                                        <p><strong>1. Haba dibebaskan (q)</strong><br><span class="latex">q = mc\theta = 50 \times 4.2 \times 10.5 = 2205 \text{ J}</span></p>
+                                        <p><strong>2. Bilangan mol (n)</strong><br><span class="latex">n = \frac{MV}{1000} = \frac{0.2 \times 50}{1000} = 0.01 \text{ mol}</span></p>
+                                        <p><strong>3. Haba Penyesaran (ΔH)</strong><br><span class="latex">\Delta H = -\frac{q/1000}{n} = -\frac{2.205}{0.01} = -220.5 \text{ kJ mol⁻¹}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Haba Pembakaran -->
+                        <div class="bg-slate-50 p-6 rounded-lg border">
+                            <h3 class="text-lg font-bold text-amber-700">4. Haba Pembakaran</h3>
+                            <p class="text-sm text-slate-600 mt-1">Haba yang dibebaskan apabila 1 mol bahan dibakar dengan lengkap dalam oksigen berlebihan.</p>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <img src="https://placehold.co/600x400/fffbeb/f59e0b?text=Pembakaran+Alkohol" alt="Haba Pembakaran" class="rounded-lg w-full">
+                                    <p class="text-sm mt-2"><strong>Contoh:</strong> <span class="latex">C_3H_7OH(l) + \frac{9}{2}O_2(g) \rightarrow 3CO_2(g) + 4H_2O(l)</span></p>
+                                </div>
+                                <div class="text-sm">
+                                    <h4 class="font-semibold text-slate-700">Contoh Pengiraan:</h4>
+                                    <p class="text-slate-600 bg-white p-3 mt-1 rounded border"><strong>Soalan:</strong> Pembakaran 1.5 g propanol (C₃H₇OH) menaikkan suhu 200 cm³ air sebanyak 24.0 °C. Hitung haba pembakaran. [JMR propanol=60]</p>
+                                    <div class="mt-2 space-y-1">
+                                        <p><strong>1. Haba diserap oleh air (q)</strong><br><span class="latex">q = mc\theta = 200 \times 4.2 \times 24.0 = 20160 \text{ J}</span></p>
+                                        <p><strong>2. Bilangan mol (n)</strong><br><span class="latex">n = \frac{\text{jisim}}{JMR} = \frac{1.5}{60} = 0.025 \text{ mol}</span></p>
+                                        <p><strong>3. Haba Pembakaran (ΔH)</strong><br><span class="latex">\Delta H = -\frac{q/1000}{n} = -\frac{20.16}{0.025} = -806.4 \text{ kJ mol⁻¹}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nilai Bahan Api -->
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold text-sky-600 flex items-center gap-2 mb-3"><i data-lucide="gas-can" class="w-6 h-6"></i>Nilai Bahan Api</h2>
+                    <p class="text-slate-600">Nilai bahan api ialah jumlah haba yang dibebaskan apabila 1 gram bahan api dibakar dengan lengkap. Ia digunakan untuk membandingkan kecekapan bahan api.</p>
+                    <div class="mt-4 bg-teal-50 border border-teal-200 text-teal-800 p-4 rounded-lg">
+                        <strong>Formula:</strong> <span class="latex">\text{Nilai Bahan Api (kJ g⁻¹)} = \frac{\text{Haba Pembakaran (kJ mol⁻¹)}}{\text{Jisim Molar (g mol⁻¹)}}</span>
+                    </div>
+                    <div class="mt-4 grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold">Ciri Bahan Api yang Baik</h4>
+                            <ul class="list-disc list-inside text-sm text-slate-600 mt-2 space-y-1">
+                                <li>Mempunyai <strong>nilai bahan api yang tinggi</strong>.</li>
+                                <li>Kos yang <strong>rendah dan berpatutan</strong>.</li>
+                                <li><strong>Mudah diangkut</strong> dan disimpan.</li>
+                                <li>Tidak menghasilkan bahan cemar berbahaya (<strong>mesra alam</strong>).</li>
+                            </ul>
+                        </div>
+                        <div class="overflow-x-auto">
+                             <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">Bahan Api</th>
+                                        <th scope="col" class="px-6 py-3">Nilai Bahan Api (kJ g⁻¹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b"><td class="px-6 py-4">Hidrogen</td><td class="px-6 py-4">143.0</td></tr>
+                                    <tr class="bg-gray-50 border-b"><td class="px-6 py-4">Gas asli (Metana)</td><td class="px-6 py-4">54.0</td></tr>
+                                    <tr class="bg-white border-b"><td class="px-6 py-4">Petrol</td><td class="px-6 py-4">48.0</td></tr>
+                                    <tr class="bg-gray-50 border-b"><td class="px-6 py-4">Etanol</td><td class="px-6 py-4">29.7</td></tr>
+                                    <tr class="bg-white"><td class="px-6 py-4">Arang batu</td><td class="px-6 py-4">27.0</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bahagian Kuiz -->
+            <section id="content-kuiz" class="hidden">
+                <div id="quiz-start" class="card p-6 text-center">
+                    <i data-lucide="brain-circuit" class="w-16 h-16 mx-auto text-sky-500 mb-4"></i>
+                    <h2 class="text-2xl font-bold">Uji Kefahaman Anda!</h2>
+                    <p class="text-slate-600 mt-2 mb-6">Kuiz ini mengandungi 20 soalan yang dipilih secara rawak. Soalan dan jawapan akan dirawak setiap kali anda mencuba. Selamat maju jaya!</p>
+                    <button id="start-quiz-btn" class="bg-sky-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-sky-600 transition-colors">Mulakan Kuiz</button>
+                </div>
+
+                <div id="quiz-container" class="hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <div id="question-counter" class="text-sm font-semibold text-slate-600"></div>
+                        <div id="score-counter" class="text-sm font-semibold text-slate-600"></div>
+                    </div>
+                    <div class="card p-6">
+                        <p id="question-text" class="text-lg font-semibold mb-6"></p>
+                        <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Options will be generated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="quiz-results" class="hidden card p-8 text-center">
+                     <i data-lucide="award" class="w-20 h-20 mx-auto text-amber-500 mb-4"></i>
+                    <h2 class="text-3xl font-bold mb-2">Tahniah!</h2>
+                    <p class="text-slate-600 mb-4">Anda telah menyelesaikan kuiz.</p>
+                    <p class="text-5xl font-bold mb-6" id="final-score"></p>
+                    <button id="retry-quiz-btn" class="bg-sky-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-sky-600 transition-colors">Cuba Semula</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script async src="https://www.tiktok.com/embed.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup Ikon
+            lucide.createIcons();
+
+            // Render LaTeX
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '<span class="latex">', right: '</span>', display: false}
+                ],
+                throwOnError : false
+            });
+
+            // Logik Navigasi
+            const navNota = document.getElementById('nav-nota');
+            const navKuiz = document.getElementById('nav-kuiz');
+            const contentNota = document.getElementById('content-nota');
+            const contentKuiz = document.getElementById('content-kuiz');
+
+            navNota.addEventListener('click', () => {
+                contentNota.classList.remove('hidden');
+                contentKuiz.classList.add('hidden');
+                navNota.classList.add('active');
+                navKuiz.classList.remove('active');
+            });
+
+            navKuiz.addEventListener('click', () => {
+                contentNota.classList.add('hidden');
+                contentKuiz.classList.remove('hidden');
+                navKuiz.classList.add('active');
+                navNota.classList.remove('active');
+            });
+
+            // Data Kuiz
+            const quizData = [
+                // Set Soalan Asal (20 soalan)
+                {
+                    question: "Antara berikut, yang manakah merupakan ciri tindak balas endotermik?",
+                    options: ["Membebaskan haba", "Suhu persekitaran meningkat", "Nilai \\(\\Delta H\\) adalah negatif", "Haba diserap dari persekitaran"],
+                    answer: "Haba diserap dari persekitaran"
+                },
+                {
+                    question: "Proses manakah yang merupakan tindak balas eksotermik?",
+                    options: ["Fotosintesis", "Pembakaran pita magnesium", "Penguraian kalsium karbonat", "Melarutkan ammonium nitrat dalam air"],
+                    answer: "Pembakaran pita magnesium"
+                },
+                {
+                    question: "Apakah yang dimaksudkan dengan nilai bahan api?",
+                    options: ["Jumlah haba dibebaskan apabila 1 mol bahan api dibakar", "Jumlah haba dibebaskan apabila 1 g bahan api dibakar", "Jumlah haba diserap apabila 1 g bahan api dibakar", "Kecekapan bahan api menukarkan haba kepada tenaga kinetik"],
+                    answer: "Jumlah haba dibebaskan apabila 1 g bahan api dibakar"
+                },
+                {
+                    question: "Definisi manakah yang paling tepat untuk haba peneutralan?",
+                    options: ["Haba dibebaskan apabila 1 mol garam terbentuk.", "Haba diserap apabila 1 mol air terbentuk.", "Haba dibebaskan apabila 1 mol air terbentuk daripada asid dan alkali.", "Haba diserap apabila 1 mol asid bertindak balas."],
+                    answer: "Haba dibebaskan apabila 1 mol air terbentuk daripada asid dan alkali."
+                },
+                {
+                    question: "Persamaan termokimia berikut menunjukkan tindak balas zink dan kuprum(II) sulfat. <br> \\(Zn + CuSO_4 \\rightarrow ZnSO_4 + Cu \\quad \\Delta H = -217 \\text{ kJ mol⁻¹}\\) <br> Apakah jenis haba tindak balas ini?",
+                    options: ["Haba pemendakan", "Haba penyesaran", "Haba peneutralan", "Haba pembakaran"],
+                    answer: "Haba penyesaran"
+                },
+                {
+                    question: "Apabila 50 cm³ larutan argentum nitrat 1.0 mol dm⁻³ dicampurkan dengan 50 cm³ larutan natrium klorida 1.0 mol dm⁻³, suhu campuran meningkat sebanyak 7.5 °C. Hitung haba pemendakan. [Muatan haba tentu larutan = 4.2 J g⁻¹ °C⁻¹]",
+                    options: ["-3150 kJ mol⁻¹", "-63.0 kJ mol⁻¹", "+3150 kJ mol⁻¹", "+63.0 kJ mol⁻¹"],
+                    answer: "-63.0 kJ mol⁻¹"
+                },
+                {
+                    question: "Gambar rajah aras tenaga untuk satu tindak balas menunjukkan aras tenaga hasil tindak balas lebih tinggi daripada bahan tindak balas. Tindak balas ini ialah...",
+                    options: ["Eksotermik dengan \\(\\Delta H\\) positif", "Endotermik dengan \\(\\Delta H\\) positif", "Eksotermik dengan \\(\\Delta H\\) negatif", "Endotermik dengan \\(\\Delta H\\) negatif"],
+                    answer: "Endotermik dengan \\(\\Delta H\\) positif"
+                },
+                {
+                    question: "Pembakaran lengkap 1 mol etanol, C₂H₅OH, membebaskan 1376 kJ haba. Persamaan termokimia yang manakah betul?",
+                    options: [
+                        "\\(C_{2}H_{5}OH + 3O_{2} \\rightarrow 2CO_{2} + 3H_{2}O \\quad \\Delta H = +1376 \\text{ kJ mol⁻¹}\\)",
+                        "\\(C_{2}H_{5}OH + 3O_{2} \\rightarrow 2CO_{2} + 3H_{2}O \\quad \\Delta H = -1376 \\text{ kJ mol⁻¹}\\)",
+                        "\\(2C_{2}H_{5}OH + 6O_{2} \\rightarrow 4CO_{2} + 6H_{2}O \\quad \\Delta H = -1376 \\text{ kJ mol⁻¹}\\)",
+                        "\\(C_{2}H_{5}OH \\rightarrow 2C + 3H_{2} + \\frac{1}{2}O_{2} \\quad \\Delta H = +1376 \\text{ kJ mol⁻¹}\\)"
+                    ],
+                    answer: "\\(C_{2}H_{5}OH + 3O_{2} \\rightarrow 2CO_{2} + 3H_{2}O \\quad \\Delta H = -1376 \\text{ kJ mol⁻¹}\\)"
+                },
+                {
+                    question: "Proses pemecahan ikatan kimia adalah proses...",
+                    options: ["Endotermik", "Eksotermik", "Peneutralan", "Pemendakan"],
+                    answer: "Endotermik"
+                },
+                {
+                    question: "Manakala proses pembentukan ikatan kimia adalah proses...",
+                    options: ["Endotermik", "Eksotermik", "Penyesaran", "Pembakaran"],
+                    answer: "Eksotermik"
+                },
+                {
+                    question: "Apakah yang diwakili oleh simbol \\(\\Delta H\\)?",
+                    options: ["Kandungan haba", "Suhu tindak balas", "Perubahan kandungan tenaga", "Tenaga pengaktifan"],
+                    answer: "Perubahan kandungan tenaga"
+                },
+                {
+                    question: "Dalam tindak balas eksotermik, jumlah kandungan tenaga hasil tindak balas adalah _________ daripada jumlah kandungan tenaga bahan tindak balas.",
+                    options: ["Lebih tinggi", "Lebih rendah", "Sama", "Sifar"],
+                    answer: "Lebih rendah"
+                },
+                {
+                    question: "Antara berikut, yang manakah BUKAN contoh tindak balas eksotermik?",
+                    options: ["Respirasi sel", "Pembekuan air", "Pencairan ais", "Peneutralan asid hidroklorik dengan natrium hidroksida"],
+                    answer: "Pencairan ais"
+                },
+                {
+                    question: "Nilai haba peneutralan bagi tindak balas antara asid kuat dan alkali kuat adalah sentiasa sama, iaitu -57.3 kJ mol⁻¹. Mengapa?",
+                    options: ["Kerana semua asid kuat mempunyai kebesan yang sama.", "Kerana tindak balas hanya melibatkan pembentukan 1 mol garam.", "Kerana tindak balas bersih melibatkan ion hidrogen dan ion hidroksida untuk membentuk 1 mol air.", "Kerana semua alkali kuat mempunyai kepekatan yang sama."],
+                    answer: "Kerana tindak balas bersih melibatkan ion hidrogen dan ion hidroksida untuk membentuk 1 mol air."
+                },
+                {
+                    question: "Diberi tenaga ikatan: H-H = 436, Cl-Cl = 242, H-Cl = 431 (semua dalam kJ mol⁻¹). Hitung \\(\\Delta H\\) bagi tindak balas: \\(H_{2}(g) + Cl_{2}(g) \\rightarrow 2HCl(g)\\)",
+                    options: ["-184 kJ mol⁻¹", "+184 kJ mol⁻¹", "-247 kJ mol⁻¹", "+247 kJ mol⁻¹"],
+                    answer: "-184 kJ mol⁻¹"
+                },
+                {
+                    question: "Penggunaan pek sejuk segera dalam kecederaan sukan adalah satu contoh aplikasi...",
+                    options: ["Tindak balas eksotermik", "Tindak balas endotermik", "Tindak balas peneutralan", "Tindak balas pembakaran"],
+                    answer: "Tindak balas endotermik"
+                },
+                {
+                    question: "Satu eksperimen dijalankan untuk menentukan haba pembakaran propanol, C₃H₇OH. Apakah data yang TIDAK diperlukan untuk mengira nilai haba pembakaran?",
+                    options: ["Jisim air dalam bekas", "Perubahan suhu air", "Jisim propanol yang dibakar", "Isipadu oksigen yang digunakan"],
+                    answer: "Isipadu oksigen yang digunakan"
+                },
+                {
+                    question: "Tindak balas manakah yang mempunyai nilai \\(\\Delta H\\) positif?",
+                    options: ["\\(2H_{2} + O_{2} \\rightarrow 2H_{2}O\\)", "\\(Mg + 2HCl \\rightarrow MgCl_{2} + H_{2}\\)", "\\(CaCO_{3} \\rightarrow CaO + CO_{2}\\)", "\\(NaOH + HCl \\rightarrow NaCl + H_{2}O\\)"],
+                    answer: "\\(CaCO_{3} \\rightarrow CaO + CO_{2}\\)"
+                },
+                {
+                    question: "Apakah maksud 'muatan haba tentu air ialah 4.2 J g⁻¹ °C⁻¹'?",
+                    options: ["4.2 J tenaga haba diperlukan untuk menaikkan suhu 1 g air sebanyak 1 °C.", "4.2 J tenaga haba dibebaskan apabila suhu 1 g air turun sebanyak 1 °C.", "4.2 J tenaga haba diperlukan untuk menukarkan 1 g air kepada stim.", "Kedua-dua A dan B adalah betul."],
+                    answer: "Kedua-dua A dan B adalah betul."
+                },
+                {
+                    question: "Semasa mengira \\(\\Delta H\\), jisim larutan (m) dalam formula q = mcθ merujuk kepada...",
+                    options: ["Jisim bahan tindak balas sahaja", "Jisim hasil tindak balas sahaja", "Jumlah jisim keseluruhan campuran tindak balas", "Jisim pelarut (air) sahaja"],
+                    answer: "Jumlah jisim keseluruhan campuran tindak balas"
+                },
+                // Soalan Tambahan (5 soalan)
+                {
+                    question: "Haba peneutralan antara asid etanoik (asid lemah) dan natrium hidroksida (alkali kuat) adalah -55.2 kJ mol⁻¹. Mengapakah nilai ini lebih rendah daripada -57.3 kJ mol⁻¹?",
+                    options: ["Asid etanoik menghasilkan lebih banyak haba.", "Sebahagian haba diserap untuk mengionkan asid etanoik.", "Tindak balas ini adalah endotermik.", "Garam yang terhasil adalah tidak stabil."],
+                    answer: "Sebahagian haba diserap untuk mengionkan asid etanoik."
+                },
+                {
+                    question: "Antara bahan api berikut, yang manakah mempunyai nilai bahan api tertinggi dan dianggap sebagai 'bahan api bersih'?",
+                    options: ["Petrol", "Arang Batu", "Hidrogen", "Etanol"],
+                    answer: "Hidrogen"
+                },
+                {
+                    question: "Pembakaran 1 mol heksana, C₆H₁₄ membebaskan 4163 kJ haba. Berapakah nilai bahan api heksana? [Jisim Atom Relatif: H=1, C=12]",
+                    options: ["-4163.0 kJ g⁻¹", "-48.4 kJ g⁻¹", "-86.0 kJ g⁻¹", "-357.0 kJ g⁻¹"],
+                    answer: "-48.4 kJ g⁻¹"
+                },
+                {
+                    question: "Persamaan berikut menunjukkan pembentukan ammonia. \\(N_2(g) + 3H_2(g) \\rightarrow 2NH_3(g) \\quad \\Delta H = -92 \\text{ kJ}\\). Berapakah haba yang dibebaskan apabila 1 mol ammonia terbentuk?",
+                    options: ["-92 kJ", "-46 kJ", "+92 kJ", "+46 kJ"],
+                    answer: "-46 kJ"
+                },
+                {
+                    question: "Apabila pepejal kalium hidroksida dilarutkan dalam air, pemerhatian manakah yang akan dibuat?",
+                    options: ["Tabung uji menjadi sejuk.", "Gelembung gas dibebaskan.", "Mendakan putih terbentuk.", "Tabung uji menjadi panas."],
+                    answer: "Tabung uji menjadi panas."
+                }
+            ];
+
+            // Logik Kuiz
+            const quizStart = document.getElementById('quiz-start');
+            const quizContainer = document.getElementById('quiz-container');
+            const quizResults = document.getElementById('quiz-results');
+            const startBtn = document.getElementById('start-quiz-btn');
+            const retryBtn = document.getElementById('retry-quiz-btn');
+
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const questionCounter = document.getElementById('question-counter');
+            const scoreCounter = document.getElementById('score-counter');
+            const finalScore = document.getElementById('final-score');
+
+            let allQuestions = [];
+            let currentQuestions = [];
+            let currentQuestionIndex = 0;
+            let score = 0;
+            const questionsPerQuiz = 20;
+            
+            function shuffleArray(array) {
+                return array.sort(() => Math.random() - 0.5);
+            }
+
+            function startQuiz() {
+                score = 0;
+                currentQuestionIndex = 0;
+                
+                allQuestions = shuffleArray([...quizData]);
+                currentQuestions = allQuestions.slice(0, questionsPerQuiz);
+                currentQuestions.forEach(q => {
+                    q.options = shuffleArray([...q.options]);
+                });
+
+                quizStart.classList.add('hidden');
+                quizResults.classList.add('hidden');
+                quizContainer.classList.remove('hidden');
+                displayQuestion();
+            }
+
+            function displayQuestion() {
+                const currentQuestion = currentQuestions[currentQuestionIndex];
+                questionCounter.textContent = `Soalan ${currentQuestionIndex + 1} / ${questionsPerQuiz}`;
+                scoreCounter.textContent = `Skor: ${score}`;
+                questionText.innerHTML = currentQuestion.question;
+
+                optionsContainer.innerHTML = '';
+                currentQuestion.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.innerHTML = option;
+                    button.classList.add('quiz-option', 'p-4', 'rounded-lg', 'text-left', 'w-full');
+                    button.addEventListener('click', () => selectAnswer(option, button));
+                    optionsContainer.appendChild(button);
+                });
+                
+                // Re-render LaTeX for questions/options
+                renderMathInElement(quizContainer, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
+                });
+            }
+
+            function selectAnswer(selectedOptionText, selectedButton) {
+                const currentQuestion = currentQuestions[currentQuestionIndex];
+                // Clean the text from HTML tags for comparison
+                const cleanSelected = new DOMParser().parseFromString(selectedOptionText, "text/html").body.textContent || "";
+                const cleanAnswer = new DOMParser().parseFromString(currentQuestion.answer, "text/html").body.textContent || "";
+
+                const isCorrect = cleanSelected === cleanAnswer;
+
+                if (isCorrect) {
+                    score++;
+                    selectedButton.classList.add('correct');
+                } else {
+                    selectedButton.classList.add('incorrect');
+                }
+                
+                Array.from(optionsContainer.children).forEach(button => {
+                    const cleanButtonText = new DOMParser().parseFromString(button.innerHTML, "text/html").body.textContent || "";
+                    button.disabled = true;
+                    if (cleanButtonText === cleanAnswer) {
+                        button.classList.add('correct');
+                    }
+                });
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questionsPerQuiz) {
+                        displayQuestion();
+                    } else {
+                        showResults();
+                    }
+                }, 1500);
+            }
+
+
+
+            function showResults() {
+                quizContainer.classList.add('hidden');
+                quizResults.classList.remove('hidden');
+                finalScore.textContent = `${score} / ${questionsPerQuiz}`;
+            }
+
+            startBtn.addEventListener('click', startQuiz);
+            retryBtn.addEventListener('click', startQuiz);
+        });
+    </script>
+</body>
+</html>
+
